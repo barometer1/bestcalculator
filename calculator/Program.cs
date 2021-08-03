@@ -34,7 +34,12 @@ namespace calculator
                     reached = true;
                     break;
                 case "division":
+                    if (_num02 == 0)
+                    {
+                        Console.WriteLine("The answer is: undefined");
+                    } else {
                     Console.WriteLine("The answer is: " + ((double)_num01 / (double)_num02));
+                    }
                     reached = true;
                     break;
                 default:
