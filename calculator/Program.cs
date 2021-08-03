@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace calculator
 {
@@ -7,71 +7,72 @@ namespace calculator
         
         static void Main(string[] args)
         {
-            Input ();
-        }
-        
-        public static void GetOper(double _num01, double _num02)
-        {
-            bool reached = true;
-            do
-            {
-                Console.WriteLine("What operation are you calculating? Type \"help\" for options.");
-            
-                string operation = Console.ReadLine();
+            Input();
 
-                switch (operation.ToLower())
-                {
-                case "addition":
-                    Console.WriteLine("The answer is: " + _num01 + _num02);
-                    reached = true;
-                    break;
-                case "subtraction":
-                    Console.WriteLine("The answer is: " + (_num01 - _num02) );
-                    reached = true;
-                    break;
-                case "multiplication":
-                    Console.WriteLine("The answer is: " + _num01 * _num02);
-                    reached = true;
-                    break;
-                case "division":
-                    if (_num02 == 0)
-                    {
-                        Console.WriteLine("The answer is: undefined");
-                    } else {
-                    Console.WriteLine("The answer is: " + ((double)_num01 / (double)_num02));
-                    }
-                    reached = true;
-                    break;
-                default:
-                    Console.WriteLine("Available operators are addition, subtraction, multiplication, and division.");
-                    reached = false;
-                    break;
-                }  
-            } while (reached == false);
-            
         }
         public static void Input ()
         {
-            Console.WriteLine("What's the first number?");
+            Console.WriteLine("First number?");
             double num01 = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("What's the second number?");
+            Console.WriteLine("Second number?");
             double num02 = Convert.ToDouble(Console.ReadLine());
 
-            GetOper(num01, num02);
+            Console.WriteLine("Which operation are you calculating?");
+            var oper = Console.ReadLine();
 
-            Console.WriteLine("Do you wish to continue calculating?");
+            double answer = Compute(oper, num01, num02);
 
-            string continuance = Console.ReadLine();
-
-            if (continuance.ToLower() == "yes")
+            Output(answer);
+        }
+        public static double Compute (string _oper, double _num01, double _num02)
+        {
+            double _answer;
+            switch (_oper.ToLower())
             {
-                Input ();
-            } else {
-                Console.WriteLine("Thanks for calculating!");
+                case "addition":
+                    _answer = Addition(_num01, _num02);
+                    return _answer;
+                case "subtraction":
+                    _answer = Subtraction(_num01, _num02);
+                    return _answer;
+                case "multiplication":
+                    _answer = Multiplication(_num01, _num02);
+                    return _answer;
+                case "division":
+                    if (_num01 != 0)
+                    {
+                        _answer = Division(_num01, _num02);
+                        return _answer;
+                    } else {
+                        return double.NaN;
+                    }
+                default:
+                    throw new ArgumentException("Available operations are addition, subtraction, multiplication, and division");
             }
-
-            Console.ReadKey();
+        }
+        public static void Output (double _answer)
+        {
+            Console.Write("The answer is " + _answer);
+        }
+        public static double Addition (double _num01, double _num02)
+        {
+            double _answer = (_num01 + _num02);
+            return _answer;
+        }
+        public static double Subtraction (double _num01, double _num02)
+        {
+            double _answer = (_num01 - _num02);
+            return _answer;
+        }
+        public static double Multiplication (double _num01, double _num02)
+        {
+            double _answer = (_num01 * _num02);
+            return _answer;
+        }
+        public static double Division (double _num01, double _num02)
+        {
+            double _answer = (_num01 / _num02);
+            return _answer;
         }
     }
 }
