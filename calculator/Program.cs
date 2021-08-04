@@ -9,6 +9,29 @@ namespace calculator
         {
             Input();
 
+            bool complete = false;
+
+            do {
+                Console.WriteLine("Do you wish to continue computing?");
+                string continuance;
+                continuance = Console.ReadLine();
+                if (continuance == "yes")
+                {
+                    Input();
+                    complete = false;
+                } 
+                else if (continuance == "no") 
+                {
+                    Console.WriteLine("OK. ¡Adios!");
+                    Console.ReadKey();
+                    complete = true;
+                } 
+                else 
+                {
+                    Console.WriteLine("Not sure what you mean. Type \"yes\" or \"no\".");
+                    complete = false;
+                }
+            } while (complete == false);
         }
         public static void Input ()
         {
@@ -17,42 +40,48 @@ namespace calculator
             Console.WriteLine("Second number?");
             double num02 = Convert.ToDouble(Console.ReadLine());
 
-            Console.WriteLine("Which operation are you calculating?");
-            var oper = Console.ReadLine();
+            double answer = Compute(num01, num02);
 
-            double answer = Compute(oper, num01, num02);
+            Console.WriteLine("The result is " + answer);
 
-            Output(answer);
+            Console.ReadKey();
         }
-        public static double Compute (string _oper, double _num01, double _num02)
+        public static double Compute (double _num01, double _num02)
         {
-            double _answer;
-            switch (_oper.ToLower())
+            bool valid = true;
+            double ans = 0;
+
+            do
             {
-                case "addition":
-                    _answer = Addition(_num01, _num02);
-                    return _answer;
-                case "subtraction":
-                    _answer = Subtraction(_num01, _num02);
-                    return _answer;
-                case "multiplication":
-                    _answer = Multiplication(_num01, _num02);
-                    return _answer;
-                case "division":
-                    if (_num01 != 0)
-                    {
-                        _answer = Division(_num01, _num02);
-                        return _answer;
-                    } else {
-                        return double.NaN;
-                    }
-                default:
-                    throw new ArgumentException("Available operations are addition, subtraction, multiplication, and division");
-            }
-        }
-        public static void Output (double _answer)
-        {
-            Console.Write("The answer is " + _answer);
+                valid = true;
+                
+                Console.WriteLine("Please enter arithmetic operation:");
+
+                string op = Console.ReadLine().ToLower();
+                switch (op)
+                {
+                    case "addition":
+                        ans = Addition(_num01, _num02);
+                        break;
+
+                    case "subtraction":
+                        ans = Subtraction(_num01, _num02);
+                        break;
+
+                    case "multiplication":
+                        ans = Multiplication(_num01, _num02);
+                        break;
+
+                    case "division":
+                        ans = Division(_num01, _num02);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid operation.");
+                        valid = false;
+                        break;
+                }
+            } while (valid == false);
+            return ans;
         }
         public static double Addition (double _num01, double _num02)
         {
@@ -71,8 +100,13 @@ namespace calculator
         }
         public static double Division (double _num01, double _num02)
         {
-            double _answer = (_num01 / _num02);
-            return _answer;
+            if (_num02 == 0)
+            {
+                return double.NaN;
+            } else {
+                double _answer = (_num01 / _num02);
+                return _answer;
+            }
         }
     }
 }
